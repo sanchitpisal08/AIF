@@ -1,0 +1,61 @@
+#Q1: BFS for Smart City Emergency Evacuation
+from collections import deque
+graph = {
+    'City Hospital': ['Central Market', 'Railway Station'],
+    'Central Market': ['City Hospital', 'Fire Station', 'School'],
+    'Railway Station': ['City Hospital', 'School'],
+    'Fire Station': ['Central Market', 'Community Hall'],
+    'School': ['Central Market', 'Railway Station', 'Community Hall'],
+    'Community Hall': ['Fire Station', 'School']
+}
+
+def bfs_shortest_path(graph, start, goal):
+    queue = deque([start])
+    visited = {start}
+    parent = {start: None}
+
+    while queue:
+        current = queue.popleft()
+
+        if current == goal:
+            break
+
+        for neighbour in graph[current]:
+            if neighbour not in visited:
+                visited.add(neighbour)
+                parent[neighbour] = current
+                queue.append(neighbour)
+
+    if goal not in visited:
+        return None
+
+    # Construct shortest path
+    path = []
+    current = goal
+
+    while current is not None:
+        path.append(current)
+        current = parent[current]
+
+    path.reverse()
+    return path
+
+
+# Starting location and evacuation center
+start = 'City Hospital'
+goal = 'Community Hall'
+
+path = bfs_shortest_path(graph, start, goal)
+
+if path:
+    print("BFS Traversal Path:")
+    print(" -> ".join(path))
+
+    print("\nNearest Evacuation Center:", goal)
+
+    print("Shortest Evacuation Route:")
+    print(" -> ".join(path))
+
+    print("Number of Roads:", len(path) - 1)
+else:
+    print("No route to the evacuation center.")
