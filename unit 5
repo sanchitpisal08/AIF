@@ -1,0 +1,31 @@
+
+import random
+
+# Encode a number into 5-bit binary
+def encode(x):
+    return format(x, '05b')
+
+# Decode binary chromosome
+def decode(chromosome):
+    return int(chromosome, 2)
+
+# Fitness function
+def fitness(x):
+    return x ** 2
+
+# Generate initial population of size 6
+population = []
+
+for i in range(6):
+    x = random.randint(0, 31)
+    chromosome = encode(x)
+    population.append(chromosome)
+
+# Display population and fitness
+print("Initial Population:")
+print("Chromosome\tDecoded X\tFitness")
+
+for chromosome in population:
+    x = decode(chromosome)
+    f = fitness(x)
+    print(chromosome, "\t", x, "\t\t", f)
